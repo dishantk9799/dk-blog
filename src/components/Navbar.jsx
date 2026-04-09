@@ -4,12 +4,19 @@ import { FiSun, FiMoon } from "react-icons/fi";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { IoLogOutOutline } from "react-icons/io5";
 import { useTheme } from '../context/ThemeContext';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { useAuth } from '../context/AuthContext';
+import { toast } from 'react-toastify';
 const Navbar = () => {
     const { theme, setTheme } = useTheme();
-    const { logginedUser } = useAuth();
+    const { logginedUser, LogoutUser } = useAuth();
     const [menu, setMenu] = useState(false);
+    const navigate = useNavigate();
+
+    const logout = () => {
+        LogoutUser();
+        toast.info('Logout successfully')
+    }
 
     return (
         <div className={`w-full sticky top-0 z-50 h-[4rem]  backdrop-blur-sm border-b ${theme ? 'border-zinc-200/40' : 'border-zinc-900/40'} flex justify-center`}>
@@ -17,7 +24,7 @@ const Navbar = () => {
 
                 {/* Left */}
                 <div className='font-extrabold text-lg'>
-                    <button className='flex cursor-pointer items-center'><img style={{ height: "30px" }} src={blog} alt="logo" />dk-blog</button>
+                    <Link to='/' className='flex cursor-pointer items-center'><img style={{ height: "30px" }} src={blog} alt="logo" />dk-blog</Link>
                 </div>
 
                 {/* Right */}
@@ -26,7 +33,7 @@ const Navbar = () => {
                     <button onClick={() => setTheme(prev => !prev)} className='p-3 cursor-pointer hover:bg-blue-600 duration-200 rounded-lg'>
                         {theme ? <FiSun size={18} /> : <FiMoon size={18} />}
                     </button>
-                    
+
                     {logginedUser ? (
                         <>
                             {/* User Name */}
@@ -36,16 +43,16 @@ const Navbar = () => {
                                     <span className='hidden sm:block'>qwerty</span>
                                 </button>
                                 {/* Menu */}
-                                <div className={`${menu ? 'block' : 'hidden'} text-left overflow-hidden rounded-lg border  backdrop-blur-sm top-12 right-0 absolute`}>
+                                <div className={`${menu ? 'block' : 'hidden'} text-left overflow-hidden rounded-lg border ${theme ? 'bg-zinc-900' : 'bg-zinc-200'} top-12 right-0 absolute`}>
                                     <div className='border-b px-4 py-2'>
                                         <h1>qwerty</h1>
                                         <p className='text-xs text-zinc-600'>qwerty@gmail.com</p>
                                     </div>
-                                    <div className='border-b px-4 py-2 hover:bg-blue-600 duration-200'>
-                                        <button className='flex items-center gap-1'><LuLayoutDashboard size={15} /> Dashbaord</button>
+                                    <div onClick={() => {navigate('/dashboard'); setMenu(false); }} className='border-b px-4 py-2 cursor-pointer hover:bg-blue-600 duration-200'>
+                                        <h1 className='flex items-center gap-1'><LuLayoutDashboard size={15} /> Dashbaord</h1>
                                     </div>
-                                    <div className='px-4 py-2 hover:bg-blue-600 duration-200'>
-                                        <button className='flex items-center gap-1'><IoLogOutOutline size={15} /> <span className='text-red-500'>Logout</span></button>
+                                    <div onClick={logout} className='px-4 py-2 cursor-pointer hover:bg-blue-600 duration-200'>
+                                        <h1 className='flex items-center gap-1'><IoLogOutOutline size={15} /> <span className='text-red-500'>Logout</span></h1>
                                     </div>
                                 </div>
                             </div>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import blog from '/blog.svg';
 import { useTheme } from '../context/ThemeContext';
 import { Link } from 'react-router';
@@ -6,11 +6,21 @@ import { useAuth } from '../context/AuthContext';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 const SignIn = () => {
+  const [invalid, setInvalid] = useState(false);
   const { theme } = useTheme();
   const { registerUser, setLogginedUser } = useAuth();
   const { register, handleSubmit, reset } = useForm();
   const onSubmit = (data) => {
-
+    let user = registerUser.find(u => u.email === data.email && u.password === data.password);
+    if (!user) {
+      setInvalid(true);
+      return;
+    }
+    setInvalid(false);
+    setLogginedUser(user);
+    localStorage.setItem('login', JSON.stringify(user));
+    toast.success('LogIn successfully');
+    reset();
   }
   const onError = () => {
     toast.error("All fields are required")
@@ -54,7 +64,7 @@ const SignIn = () => {
         </div>
 
         {/* Error Message */}
-        <p className='px-2 w-full text-xs text-red-500 rounded-lg bg-red-400/20 p-2 border border-red-500'>Error in name</p>
+        {invalid && (<p className='px-2 w-full text-xs text-red-500 rounded-lg bg-red-400/20 p-2 border border-red-500'>Invalid email or password</p>)}
 
         {/* Submit Button */}
         <button className='w-full bg-blue-500 hover:bg-blue-600 duration-200 p-2 rounded-lg'>

@@ -6,6 +6,8 @@ import SignIn from '../pages/SignIn';
 import BlogList from '../components/BlogList';
 import BlogForm from '../components/BlogForm';
 import App from '../App';
+import ProtectedAuth from './ProtectedAuth';
+import ProtectedDashboard from './ProtectedDashboard';
 const AppRoute = () => {
     let router = createBrowserRouter([
         {
@@ -18,19 +20,35 @@ const AppRoute = () => {
                 },
                 {
                     path: '/dashboard',
-                    element: <Dashboard />
+                    element: (
+                        <ProtectedDashboard>
+                            <Dashboard />
+                        </ProtectedDashboard>
+                    )
                 },
                 {
                     path: '/dashboard/new',
-                    element: <BlogForm />
+                    element: (
+                        <ProtectedDashboard>
+                            <BlogForm />
+                        </ProtectedDashboard>
+                    )
                 },
                 {
                     path: '/login',
-                    element: <SignIn />
+                    element: (
+                        <ProtectedAuth>
+                            <SignIn />
+                        </ProtectedAuth>
+                    )
                 },
                 {
                     path: '/register',
-                    element: <SignUp />
+                    element: (
+                        <ProtectedAuth>
+                            <SignUp />
+                        </ProtectedAuth>
+                    )
                 },
                 {
                     path: '/blog/:id',

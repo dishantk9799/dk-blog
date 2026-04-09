@@ -33,7 +33,6 @@ const SignUp = () => {
         toast.success("Account Created Successfully");
         reset();
         navigate('/login');
-
     }
     const onError = () => {
         toast.error("All fields are required")
