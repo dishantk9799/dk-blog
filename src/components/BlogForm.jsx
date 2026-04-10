@@ -3,7 +3,7 @@ import FormTag from '../ui/FormTag';
 import { useTheme } from "../context/ThemeContext";
 import { useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useBlog } from "../context/BlogContext";
 
@@ -12,9 +12,9 @@ const BlogForm = () => {
     const [input, setInput] = useState('');
     const [erro, setErro] = useState('');
     const { theme } = useTheme();
-    const { addBlog, setIsPublished, isPublished } = useBlog()
+    const { addBlog, editBlog, setEditBlog, updateBlog } = useBlog();
     const navigate = useNavigate();
-    const { register, handleSubmit, setValue } = useForm();
+    const { register, handleSubmit, setValue, reset } = useForm({ defaultValues: editBlog || {} });
 
     const handleEnter = (e) => {
         if (e.key === 'Enter' && input.trim() !== '') {
@@ -31,21 +31,30 @@ const BlogForm = () => {
             setInput('');
         }
     }
-    const removeTag = (tag) => {
-        const updatedTags = tags.filter(tag => tag !== tagToRemove);
+    const removeTag = (t) => {
+        const updatedTags = tags.filter(tag => tag !== t);
         setTags(updatedTags);
         setValue('tags', updatedTags);
     };
 
-    const onSubmit = (data) => {
-        addBlog(data);
-        setTags([]);
-        toast.success('Blog created successfully')
-        if (isPublished) {
-            navigate('/');
-        } else {
-            navigate('/dashboard');
+    useEffect(() => {
+        if (editBlog) {
+            reset(editBlog);
+            setTags(editBlog.tags || []);
         }
+    }, [editBlog]);
+
+    const onSubmit = (data) => {
+        if (editBlog) {
+            updateBlog(editBlog.id, data);
+            setEditBlog(null);
+            toast.success("Blog updated successfully");
+        } else {
+            addBlog(data);
+            toast.success('Blog created successfully');
+        }
+        setTags([]);
+        navigate('/dashboard');
     }
 
     const onError = () => {
@@ -127,10 +136,10 @@ const BlogForm = () => {
 
                     {/* Buttons */}
                     <div className='flex justify-end gap-3 mt-5'>
-                        <button onClick={() => setIsPublished(false)} className='px-4 py-2 rounded-lg border hover:bg-blue-600 duration-200 border-zinc-700'>
+                        <button onClick={() => setValue('isPublished', false)} className='px-4 py-2 rounded-lg border hover:bg-blue-600 duration-200 border-zinc-700'>
                             Save as Draft
                         </button>
-                        <button onClick={() => setIsPublished(true)} className='px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 duration-200'>
+                        <button onClick={() => setValue('isPublished', true)} className='px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 duration-200'>
                             Publish
                         </button>
                     </div>

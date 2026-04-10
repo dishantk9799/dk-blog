@@ -29,7 +29,7 @@ const BlogCard = ({ blog }) => {
 
             {/* User Name and Date */}
             <div className='flex justify-between text-zinc-600'>
-                <h1 className='flex items-center gap-1'><span><FiUser size={15} /></span>{logginedUser?.name || 'You' }</h1>
+                <h1 className='flex items-center gap-1'><span><FiUser size={15} /></span>{logginedUser?.name || 'UnKnown' }</h1>
                 <h1 className='flex items-center gap-1'><span><FaRegCalendarAlt size={15} /></span>{new Date(blog.createdAt).toDateString()}</h1>
             </div>
         </div>
