@@ -4,14 +4,16 @@ import Tag from '../ui/Tag'
 import { FiUser } from 'react-icons/fi'
 import { IoMdTime } from "react-icons/io";
 import { useTheme } from '../context/ThemeContext';
+import { useNavigate } from 'react-router';
 
 const BlogList = () => {
     const { theme } = useTheme();
+    const navigate = useNavigate();
     return (
         <div className={`w-full flex justify-center min-h-[calc(100vh-4rem)] ${theme ? 'border-zinc-200/40' : 'border-zinc-900/40'}`}>
             <div className='w-5xl h-full py-12 px-4'>
                 {/* Back */}
-                <button className='flex gap-2 text-zinc-600 hover:text-blue-500 duration-200 items-center'>
+                <button onClick={()=> navigate(-1)} className='flex gap-2 text-zinc-600 hover:text-blue-500 duration-200 items-center'>
                     <FaArrowLeft />
                     Back to Articles
                 </button>

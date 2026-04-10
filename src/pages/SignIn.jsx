@@ -48,7 +48,7 @@ const SignIn = () => {
             {...register('email', { required: true })}
             type="email"
             placeholder='Enter your Email...'
-            className='w-full focus:border focus:border-blue-500 backdrop-blur-sm placeholder:text-blue-300 border border-zinc-800 rounded-lg p-2 outline-none'
+            className='w-full focus:border-blue-500 backdrop-blur-sm placeholder:text-blue-300 border border-zinc-800 rounded-lg p-2 outline-none'
           />
         </div>
 
@@ -59,7 +59,7 @@ const SignIn = () => {
             {...register('password', { required: true })}
             type="password"
             placeholder='Enter Password...'
-            className='w-full focus:border focus:border-blue-500 backdrop-blur-sm placeholder:text-blue-300 border border-zinc-800 rounded-lg p-2 outline-none'
+            className='w-full focus:border-blue-500 backdrop-blur-sm placeholder:text-blue-300 border border-zinc-800 rounded-lg p-2 outline-none'
           />
         </div>
 

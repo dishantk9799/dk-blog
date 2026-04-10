@@ -6,7 +6,7 @@ import { ToastContainer } from 'react-toastify';
 const App = () => {
   const { theme } = useTheme();
   return (
-    <div style={{ fontFamily: "Nunito Medium" }} className={`w-full h-screen ${theme ? 'bg-zinc-950 text-white' : ' bg-zinc-200 text-black'}`}>
+    <div style={{ fontFamily: "Nunito Medium" }} className={`w-full min-h-screen ${theme ? 'bg-zinc-950 text-white' : ' bg-zinc-200 text-black'}`}>
       <Navbar />
       <Outlet />
       <ToastContainer

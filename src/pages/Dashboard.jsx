@@ -4,6 +4,7 @@ import { BsThreeDots } from "react-icons/bs";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { MdOutlineModeEdit, MdDeleteOutline } from "react-icons/md";
 import { useTheme } from '../context/ThemeContext';
+import { Link } from 'react-router';
 
 const Dashboard = () => {
     const { theme } = useTheme();
@@ -22,9 +23,9 @@ const Dashboard = () => {
                         </p>
                     </div>
 
-                    <button className='flex items-center gap-2 bg-blue-500 hover:bg-blue-600 duration-200 cursor-pointer px-4 py-2 rounded-lg'>
+                    <Link to='/dashboard/new' className='flex items-center gap-2 bg-blue-500 hover:bg-blue-600 duration-200 cursor-pointer px-4 py-2 rounded-lg'>
                         <IoAdd size={18} /> New Article
-                    </button>
+                    </Link>
                 </div>
 
                 {/* Bottom */}

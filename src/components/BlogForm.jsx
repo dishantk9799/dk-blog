@@ -1,22 +1,69 @@
 import { FaArrowLeft } from "react-icons/fa6";
 import FormTag from '../ui/FormTag';
+import { useTheme } from "../context/ThemeContext";
+import { useNavigate } from "react-router";
+import { set, useForm } from "react-hook-form";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import { useBlog } from "../context/BlogContext";
 
 const BlogForm = () => {
+    const [tags, setTags] = useState([]);
+    const [input, setInput] = useState('');
+    const [erro, setErro] = useState('');
+    const { theme } = useTheme();
+    const { addBlog } = useBlog()
+    const navigate = useNavigate();
+    const { register, handleSubmit, reset, setValue } = useForm();
+
+    const handleEnter = (e) => {
+        if (e.key === 'Enter' && input.trim() !== '') {
+            e.preventDefault();
+            if (tags.length >= 5) {
+                return toast.error("Max 5 tags allowed");
+            }
+            if (tags.includes(input.trim())) {
+                return toast.error("Tag already exists");
+            }
+            const updatedTags = [...tags, input.trim()];
+            setTags(updatedTags);
+            setValue('tags', updatedTags);
+            setInput('');
+        }
+    }
+    const removeTag = (tag) => {
+        const updatedTags = tags.filter(tag => tag !== tagToRemove);
+        setTags(updatedTags);
+        setValue('tags', updatedTags);
+    };
+
+    const onSubmit = (data) => {
+        addBlog(data);
+        reset();
+        setTags([]);
+        setErro('');
+    }
+
+    const onError = () => {
+        setErro('Fields are required');
+    }
+
     return (
-        <div className='w-full flex justify-center min-h-[calc(100vh-4rem)] bg-zinc-950 text-white'>
-            <div className='w-5xl h-full py-12 px-4'>
+
+        <div className={`w-full min-h-[calc(100vh-4rem)] flex justify-center  ${theme ? 'border-zinc-200/40' : 'border-zinc-900/40'}`}>
+            <div className={`w-5xl py-12 px-4`}>
 
                 {/* Back */}
-                <button className='flex gap-2 text-zinc-600 hover:text-zinc-200 duration-200 items-center'>
+                <button onClick={() => navigate(-1)} className='flex gap-2 text-zinc-600 hover:text-blue-500 duration-200 items-center'>
                     <FaArrowLeft />
                     Back to Dashboard
                 </button>
 
                 {/* Container */}
-                <div className='w-full p-4 flex flex-col gap-5 rounded-xl border border-zinc-600 bg-zinc-950/80 mt-5'>
+                <form onSubmit={handleSubmit(onSubmit, onError)} className='w-full p-4 flex flex-col gap-5 rounded-xl border backdrop-blur-lg shadow-2xl mt-5'>
 
                     {/* Title */}
-                    <h1>Create New Article</h1>
+                    <h1 className='text-3xl'>Create New Article</h1>
 
 
                     {/* Inputs */}
@@ -25,9 +72,10 @@ const BlogForm = () => {
                         {/* Title */}
                         <label>Title</label>
                         <input
+                            {...register('title', { required: true })}
                             type="text"
                             placeholder='Enter a compelling title...'
-                            className='w-full focus:border focus:border-blue-500 bg-zinc-900 border border-zinc-800 rounded-lg px-4 py-3 outline-none'
+                            className='w-full focus:border-blue-500 backdrop-blur-sm placeholder:text-blue-300 border border-zinc-800 rounded-lg p-2 outline-none'
                         />
                     </div>
 
@@ -35,50 +83,55 @@ const BlogForm = () => {
                     <div className='flex flex-col gap-2'>
                         <label>Excerpt</label>
                         <textarea
+                            {...register('excerpt', { required: true })}
                             placeholder='Write a brief summary of your article...'
-                            className='w-full focus:border focus:border-blue-500 bg-zinc-900 border border-zinc-800 rounded-lg px-4 py-3 outline-none '
+                            className='w-full focus:border-blue-500 backdrop-blur-sm placeholder:text-blue-300 border border-zinc-800 rounded-lg p-2 outline-none'
                         />
-                        <p className='text-xs text-zinc-400'>A short description that appears on the blog listing</p>
+                        <p className='text-xs text-zinc-600'>A short description that appears on the blog listing</p>
                     </div>
 
                     {/* Content */}
                     <div className='flex flex-col gap-2'>
                         <label>Content</label>
                         <textarea
+                            {...register('content', { required: true })}
                             placeholder='Write your article content here... (Markdown supported)'
-                            className='w-full focus:border focus:border-blue-500 bg-zinc-900 border border-zinc-800 rounded-lg px-4 py-3 outline-none '
+                            className='w-full focus:border-blue-500 backdrop-blur-sm placeholder:text-blue-300 border border-zinc-800 rounded-lg p-2 outline-none'
                         />
-                        <p className='text-xs text-zinc-400'>Supports Markdown: ## for headers, **bold**, *italic*, `code`, etc.</p>
+                        <p className='text-xs text-zinc-600'>Supports Markdown: ## for headers, **bold**, *italic*, `code`, etc.</p>
                     </div>
 
                     {/* Tages */}
                     <div className='flex flex-col gap-2'>
                         <label>Tages</label>
                         <div className='flex gap-2'>
-                            <FormTag />
-                            <FormTag />
-                            <FormTag />
-                            <FormTag />
+                            {tags.map((t, i) => <FormTag key={i} removeTag={removeTag} tag={t} />)}
                         </div>
+                        <input type="hidden" {...register('tags')} />
                         <input
                             type="text"
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                            onKeyDown={handleEnter}
                             placeholder='Add tags (press Enter to add)'
-                            className='w-full focus:border focus:border-blue-500 bg-zinc-900 border border-zinc-800 rounded-lg px-4 py-3 outline-none'
+                            className='w-full focus:border-blue-500 backdrop-blur-sm placeholder:text-blue-300 border border-zinc-800 rounded-lg p-2 outline-none'
                         />
-                        <p className='text-xs text-zinc-400'>Add up to 5 tags to help readers find your article</p>
+                        <p className='text-xs text-zinc-600'>Add up to 5 tags to help readers find your article</p>
                     </div>
+                    {/* Error Message */}
+                    {erro && (<p className='px-2 w-full text-xs text-red-500 rounded-lg bg-red-400/20 p-2 border border-red-500'>{erro}</p>)}
 
                     {/* Buttons */}
                     <div className='flex justify-end gap-3 mt-5'>
-                        <button className='px-4 py-2 rounded-lg border hover:bg-blue-500 duration-200 border-zinc-700'>
+                        <button className='px-4 py-2 rounded-lg border hover:bg-blue-600 duration-200 border-zinc-700'>
                             Save as Draft
                         </button>
-                        <button className='px-4 py-2 rounded-lg bg-blue-400 hover:bg-blue-500 duration-200'>
+                        <button className='px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 duration-200'>
                             Publish
                         </button>
                     </div>
 
-                </div>
+                </form>
 
             </div>
         </div>
