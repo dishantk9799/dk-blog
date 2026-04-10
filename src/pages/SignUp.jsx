@@ -42,7 +42,7 @@ const SignUp = () => {
         <div className={`w-full p-4 flex justify-center min-h-[calc(100vh-4rem)] ${theme ? 'bg-zinc-950 text-white' : ' bg-zinc-200 text-black'}`}>
             <form onSubmit={handleSubmit(onSubmit, onError)} className='w-xl flex flex-col items-center mt-10 mb-10 gap-5 h-full py-4 px-4 backdrop-blur-sm border border-zinc-800 rounded-2xl'>
                 {/* Logo */}
-                <div className='h-15 w-15 rounded-full p-2 border-2 border-blue-400'>
+                <div className='h-15 w-15 rounded-full p-2 border-2 border-blue-600'>
                     <img src={blog} alt="logo" />
                 </div>
 
