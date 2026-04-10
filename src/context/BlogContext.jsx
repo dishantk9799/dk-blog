@@ -13,7 +13,9 @@ export const BlogProvider = ({ children }) => {
     }
 
     const deleteBlog = (id) => {
-        setBlog(prev => prev.filter(p => p.id !== id));
+        const deleted = blog.filter(p => p.id !== id);
+        setBlog(deleted);
+        localStorage.setItem('blog', JSON.stringify(deleted));
     }
 
     return (

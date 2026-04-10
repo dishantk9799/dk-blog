@@ -1,12 +1,16 @@
-import React from 'react'
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { FiUser } from "react-icons/fi";
 import Tag from '../ui/Tag';
 import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router';
 const BlogCard = ({ blog }) => {
     const { logginedUser } = useAuth();
+    const navigate = useNavigate();
+    const handleCardList=(id)=>{
+        navigate(`/blog/${id}`);
+    }
     return (
-        <div className='group h-[15rem] md:h-[18rem] lg:h-[20rem] hover:border-blue-600 duration-200 flex flex-col justify-between border shadow-2xl p-4 rounded-xl backdrop-blur-lg'>
+        <div onClick={()=>handleCardList(blog.id)} className='group h-[15rem] md:h-[18rem] lg:h-[20rem] hover:border-blue-600 duration-200 flex flex-col justify-between border shadow-2xl p-4 rounded-xl backdrop-blur-lg'>
 
             <div className=''>
                 {/* Tag */}

@@ -45,8 +45,8 @@ const Navbar = () => {
                                 {/* Menu */}
                                 <div className={`${menu ? 'block' : 'hidden'} text-left overflow-hidden rounded-lg border ${theme ? 'bg-zinc-900' : 'bg-zinc-200'} top-12 right-0 absolute`}>
                                     <div className='border-b px-4 py-2'>
-                                        <h1>qwerty</h1>
-                                        <p className='text-xs text-zinc-600'>qwerty@gmail.com</p>
+                                        <h1>{logginedUser.name}</h1>
+                                        <p className='text-xs text-zinc-600'>{logginedUser.email}</p>
                                     </div>
                                     <div onClick={() => {navigate('/dashboard'); setMenu(false); }} className='border-b px-4 py-2 cursor-pointer hover:bg-blue-600 duration-200'>
                                         <h1 className='flex items-center gap-1'><LuLayoutDashboard size={15} /> Dashbaord</h1>

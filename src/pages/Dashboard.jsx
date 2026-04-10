@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 import { IoAdd } from "react-icons/io5";
-import { BsThreeDots } from "react-icons/bs";
-import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
-import { MdOutlineModeEdit, MdDeleteOutline } from "react-icons/md";
 import { useTheme } from '../context/ThemeContext';
 import { Link } from 'react-router';
+import { useBlog } from '../context/BlogContext';
+import Card from '../components/Card';
 
 const Dashboard = () => {
     const { theme } = useTheme();
-    const [menu, setMenu] = useState(false);
+    const { blog } = useBlog();
+    const publishedBlog = blog.filter(b => b.isPublished);
+    const notPublishedBlog = blog.filter(b => !b.isPublished);
 
     return (
         <div className={`w-full flex justify-center min-h-[calc(100vh-4rem)] ${theme ? 'border-zinc-200/40' : 'border-zinc-900/40'}`}>
@@ -36,17 +37,17 @@ const Dashboard = () => {
 
                         <div className='border border-zinc-800 rounded-xl p-6'>
                             <p className='text-sm text-zinc-400'>Total Articles</p>
-                            <h1 className='text-3xl font-bold mt-2'>1</h1>
+                            <h1 className='text-3xl font-bold mt-2'>{blog.length}</h1>
                         </div>
 
                         <div className='border border-zinc-800 rounded-xl p-6'>
                             <p className='text-sm text-zinc-400'>Published</p>
-                            <h1 className='text-3xl font-bold mt-2 text-blue-500'>1</h1>
+                            <h1 className='text-3xl font-bold mt-2 text-blue-500'>{publishedBlog.length}</h1>
                         </div>
 
                         <div className='border border-zinc-800 rounded-xl p-6'>
                             <p className='text-sm text-zinc-400'>Drafts</p>
-                            <h1 className='text-3xl font-bold mt-2 text-zinc-400'>0</h1>
+                            <h1 className='text-3xl font-bold mt-2 text-zinc-400'>{notPublishedBlog.length}</h1>
                         </div>
 
                     </div>
@@ -56,40 +57,7 @@ const Dashboard = () => {
 
                         <h1 className='font-bold text-lg md:text-2xl'>Your Articles</h1>
 
-                        {/* Card */}
-                        <div className='mt-5 border border-zinc-800 rounded-xl p-6 flex justify-between items-center'>
-
-                            {/* Left */}
-                            <div>
-                                <div className='flex items-center gap-2'>
-                                    <h1 className='font-bold'>nskfnfnonf</h1>
-                                    <span className='text-xs bg-blue-500 px-2 py-1 rounded-lg'>Published</span>
-                                </div>
-
-                                <p className='text-sm text-zinc-400 mt-1'>fononosdncosnc</p>
-
-                                <p className='text-xs text-zinc-500 mt-2'>
-                                    Last updated: Apr 9, 2026
-                                </p>
-                            </div>
-
-                            <div className='relative'>
-                                {/* Right */}
-                                <button onClick={() => setMenu(prev => !prev)} className='text-xl p-2 rounded-lg hover:bg-blue-600 cursor-pointer duration-200'><BsThreeDots size={18} /></button>
-                                {/* Menu */}
-                                <div className={` ${menu ? 'block' : 'hidden'} text-left p-1 rounded-lg border ${theme ? 'bg-zinc-900' : 'bg-zinc-200'} top-12 right-0 absolute`}>
-                                    <div className='hover:bg-blue-600 rounded-lg duration-200 px-4 py-2'>
-                                        <button className='flex items-center gap-2'><MdOutlineModeEdit size={15} /> Edit</button>
-                                    </div>
-                                    <div className='hover:bg-blue-600 rounded-lg duration-200 px-4 py-2'>
-                                        <button className='flex items-center gap-2'><IoEyeOffOutline size={15} /> Publish</button>
-                                    </div>
-                                    <div className='hover:bg-blue-600 rounded-lg duration-200 px-4 py-2'>
-                                        <button className='flex items-center gap-2 text-red-500'><MdDeleteOutline size={15} /> Delete</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {blog.map((b, i) => <Card key={i} blog={b} />)}
 
                     </div>
 
