@@ -39,8 +39,8 @@ const Navbar = () => {
                             {/* User Name */}
                             <div className='relative flex'>
                                 <button onClick={() => setMenu(prev => !prev)} className='hover:bg-blue-600 cursor-pointer duration-200 rounded-lg px-4 gap-1.5 flex items-center'>
-                                    <div className='h-8 w-8 flex items-center justify-center bg-blue-500 rounded-full p-2 text-sm'>Q</div>
-                                    <span className='hidden sm:block'>qwerty</span>
+                                    <div className='h-8 w-8 flex items-center justify-center bg-blue-500 rounded-full p-2 text-sm'>{logginedUser.name[0].toUpperCase()}</div>
+                                    <span className='hidden sm:block'>{logginedUser.name}</span>
                                 </button>
                                 {/* Menu */}
                                 <div className={`${menu ? 'block' : 'hidden'} text-left overflow-hidden rounded-lg border ${theme ? 'bg-zinc-900' : 'bg-zinc-200'} top-12 right-0 absolute`}>

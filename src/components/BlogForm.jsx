@@ -2,7 +2,7 @@ import { FaArrowLeft } from "react-icons/fa6";
 import FormTag from '../ui/FormTag';
 import { useTheme } from "../context/ThemeContext";
 import { useNavigate } from "react-router";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useBlog } from "../context/BlogContext";
@@ -12,9 +12,9 @@ const BlogForm = () => {
     const [input, setInput] = useState('');
     const [erro, setErro] = useState('');
     const { theme } = useTheme();
-    const { addBlog } = useBlog()
+    const { addBlog, setIsPublished, isPublished } = useBlog()
     const navigate = useNavigate();
-    const { register, handleSubmit, reset, setValue } = useForm();
+    const { register, handleSubmit, setValue } = useForm();
 
     const handleEnter = (e) => {
         if (e.key === 'Enter' && input.trim() !== '') {
@@ -39,9 +39,13 @@ const BlogForm = () => {
 
     const onSubmit = (data) => {
         addBlog(data);
-        reset();
         setTags([]);
-        setErro('');
+        toast.success('Blog created successfully')
+        if (isPublished) {
+            navigate('/');
+        } else {
+            navigate('/dashboard');
+        }
     }
 
     const onError = () => {
@@ -123,10 +127,10 @@ const BlogForm = () => {
 
                     {/* Buttons */}
                     <div className='flex justify-end gap-3 mt-5'>
-                        <button className='px-4 py-2 rounded-lg border hover:bg-blue-600 duration-200 border-zinc-700'>
+                        <button onClick={() => setIsPublished(false)} className='px-4 py-2 rounded-lg border hover:bg-blue-600 duration-200 border-zinc-700'>
                             Save as Draft
                         </button>
-                        <button className='px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 duration-200'>
+                        <button onClick={() => setIsPublished(true)} className='px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 duration-200'>
                             Publish
                         </button>
                     </div>

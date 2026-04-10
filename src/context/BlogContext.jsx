@@ -4,9 +4,10 @@ export const BlogContext = createContext();
 
 export const BlogProvider = ({ children }) => {
     const [count, setcount] = useState(34);
+    const [isPublished, setIsPublished] = useState(false);
     const [blog, setBlog] = useState(JSON.parse(localStorage.getItem('blog')) || []);
     const addBlog = (data) => {
-        const newBlog = [...blog, { ...data, id: nanoid(), createdAt: new Date() }];
+        const newBlog = [...blog, { ...data, isPublished, id: nanoid(), createdAt: new Date(), updatedAt: new Date() }];
         setBlog(newBlog);
         localStorage.setItem('blog', JSON.stringify(newBlog));
     }
@@ -18,10 +19,11 @@ export const BlogProvider = ({ children }) => {
     return (
         <BlogContext.Provider
             value={{
-                count,
-                setcount,
+                blog,
                 addBlog,
-                deleteBlog
+                deleteBlog,
+                setIsPublished,
+                isPublished
             }}
         >
             {children}

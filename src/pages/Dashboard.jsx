@@ -78,9 +78,6 @@ const Dashboard = () => {
                                 <button onClick={() => setMenu(prev => !prev)} className='text-xl p-2 rounded-lg hover:bg-blue-600 cursor-pointer duration-200'><BsThreeDots size={18} /></button>
                                 {/* Menu */}
                                 <div className={` ${menu ? 'block' : 'hidden'} text-left p-1 rounded-lg border ${theme ? 'bg-zinc-900' : 'bg-zinc-200'} top-12 right-0 absolute`}>
-                                    <div className=' hover:bg-blue-600 rounded-lg duration-200 px-4 py-2'>
-                                        <button className='flex items-center gap-2'><IoEyeOutline size={15} /> View</button>
-                                    </div>
                                     <div className='hover:bg-blue-600 rounded-lg duration-200 px-4 py-2'>
                                         <button className='flex items-center gap-2'><MdOutlineModeEdit size={15} /> Edit</button>
                                     </div>
