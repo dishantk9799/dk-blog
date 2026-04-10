@@ -1,4 +1,3 @@
-import React from 'react'
 import BlogCard from '../components/BlogCard'
 import { useBlog } from '../context/BlogContext'
 import { useTheme } from '../context/ThemeContext';

@@ -5,7 +5,6 @@ import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { MdOutlineModeEdit, MdDeleteOutline } from "react-icons/md"
 import { useBlog } from '../context/BlogContext';
 import { useNavigate } from 'react-router';
-import { toast } from 'react-toastify';
 
 const Card = ({ blog }) => {
     const { deleteBlog, togglePublish, setEditBlog } = useBlog();

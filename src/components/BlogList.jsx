@@ -1,4 +1,3 @@
-import React from 'react'
 import { FaArrowLeft, FaRegCalendarAlt } from 'react-icons/fa'
 import Tag from '../ui/Tag'
 import { FiUser } from 'react-icons/fi'
