@@ -39,7 +39,7 @@ const BlogList = () => {
                     <h1 className='font-extrabold text-4xl'>{BlogData.title}</h1>
                     {/* User Name and Date */}
                     <div className='flex gap-4 text-zinc-600'>
-                        <h1 className='flex items-center gap-1'><span><FiUser size={15} /></span>{logginedUser.name}</h1>
+                        <h1 className='flex items-center gap-1'><span><FiUser size={15} /></span>{logginedUser?.name || 'you'}</h1>
                         <h1 className='flex items-center gap-1'><span><FaRegCalendarAlt size={15} /></span>{new Date(BlogData.createdAt).toDateString()}</h1>
                         <h1 className='hidden md:flex items-center gap-1'><span><IoMdTime size={15} /></span>1 min read</h1>
                     </div>
