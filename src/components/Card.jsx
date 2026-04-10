@@ -6,12 +6,17 @@ import { MdOutlineModeEdit, MdDeleteOutline } from "react-icons/md"
 import { useBlog } from '../context/BlogContext';
 
 const Card = ({ blog }) => {
-    const { deleteBlog } = useBlog();
+    const { deleteBlog, togglePublish } = useBlog();
     const { theme } = useTheme();
     const [menu, setMenu] = useState(false);
 
-    const handleDelete = (id)=>{
+    const handleDelete = (id) => {
         deleteBlog(id);
+        setMenu(p => !p);
+    }
+
+    const handlePublish = (id) => {
+        togglePublish(id);
         setMenu(p => !p);
     }
 
@@ -40,10 +45,13 @@ const Card = ({ blog }) => {
                     <div className='hover:bg-blue-600 rounded-lg cursor-pointer duration-200 px-4 py-2'>
                         <h1 className='flex items-center gap-2'><MdOutlineModeEdit size={15} /> Edit</h1>
                     </div>
-                    <div className='hover:bg-blue-600 rounded-lg cursor-pointer duration-200 px-4 py-2'>
-                        <h1 className='flex items-center gap-2'><IoEyeOffOutline size={15} /> Publish</h1>
+                    <div onClick={() => handlePublish(blog.id)} className='hover:bg-blue-600 rounded-lg cursor-pointer duration-200 px-4 py-2'>
+                        <h1 className='flex items-center gap-2'>
+                            {blog.isPublished ? <IoEyeOffOutline size={15} /> : <IoEyeOutline size={15} />}
+                            {blog.isPublished ? 'Unpublish' : 'Publish'}
+                        </h1>
                     </div>
-                    <div onClick={()=>handleDelete(blog.id)} className='hover:bg-blue-600 cursor-pointer rounded-lg duration-200 px-4 py-2'>
+                    <div onClick={() => handleDelete(blog.id)} className='hover:bg-blue-600 cursor-pointer rounded-lg duration-200 px-4 py-2'>
                         <h1 className='flex items-center gap-2 text-red-500'><MdDeleteOutline size={15} /> Delete</h1>
                     </div>
                 </div>

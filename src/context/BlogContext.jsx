@@ -18,6 +18,18 @@ export const BlogProvider = ({ children }) => {
         localStorage.setItem('blog', JSON.stringify(deleted));
     }
 
+    const togglePublish = (id) => {
+        const updated = blog.map((b) => b.id === id ? { ...b, isPublished: !b.isPublished } : b);
+        setBlog(updated);
+        localStorage.setItem('blog', JSON.stringify(updated));
+    };
+
+    const editBlog = (id, updatedData) => {
+        const edit = blog.map((b) => b.id === id ? { ...b, ...updatedData, updatedAt: new Date() } : b);
+        setBlog(edit);
+        localStorage.setItem('blog', JSON.stringify(edit));
+    };
+
     return (
         <BlogContext.Provider
             value={{
@@ -25,7 +37,9 @@ export const BlogProvider = ({ children }) => {
                 addBlog,
                 deleteBlog,
                 setIsPublished,
-                isPublished
+                isPublished,
+                togglePublish,
+                editBlog
             }}
         >
             {children}
